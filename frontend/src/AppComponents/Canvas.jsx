@@ -4,7 +4,7 @@ import RoomPage from "@/Pages/RoomPage"
 
 const roughGenerator = rough.generator()
 
-const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
+const Canvas = ({canvasRef, contextRef, elements, setElements, tool, color}) => {
     const [isDrawing, setIsDrawing] = useState(false)
 
     useEffect(() => {
@@ -12,8 +12,15 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
         canvas.height = window.innerHeight*4/5
         canvas.width = window.innerWidth
         const context = canvas.getContext("2d")
+        context.strokeStyle = color
+        context.lineWidth = 2
+        context.lineCap = "round"
         contextRef.current = context
     }, [])
+
+    useEffect(() => {
+        contextRef.current.strokeStyle = color
+    }, [color])
 
     useLayoutEffect(() => {
         const roughCanvas = rough.canvas(canvasRef.current)
@@ -22,15 +29,27 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
         }
         elements.forEach((element) => {
             if(element.type==="pencil") {
-                roughCanvas.linearPath(element.path)
+                roughCanvas.linearPath(element.path, {
+                    stroke: element.stroke,
+                    strokeWidth: 2.5,
+                    roughness: 0
+                })
             } else if(element.type==="line") {
                 roughCanvas.draw(
-                    roughGenerator.line(element.offsetX, element.offsetY, element.width, element.height)
+                    roughGenerator.line(element.offsetX, element.offsetY, element.width, element.height, {
+                        stroke: element.stroke,
+                        strokeWidth: 2.5,
+                        roughness: 0
+                    })
                 )
             } else if(element.type==="rect") {
                 roughCanvas.draw(
                     roughGenerator.rectangle(
-                        element.offsetX, element.offsetY, element.width, element.height
+                        element.offsetX, element.offsetY, element.width, element.height, {
+                            stroke: element.stroke,
+                            strokeWidth: 2.5,
+                            roughness: 0
+                        }
                     )
                 )
             }
@@ -47,7 +66,7 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
                     offsetX,
                     offsetY,
                     path: [[offsetX, offsetY]],
-                    stroke: "black"
+                    stroke: color
                 }
             ])
         } else if(tool==="line") {
@@ -59,8 +78,7 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
                     offsetY,
                     width: offsetX,
                     height: offsetY,
-                    stroke: "black",
-
+                    stroke: color
                 }
             ])
         } else if(tool==="rect") {
@@ -70,9 +88,9 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
                     type: "rect",
                     offsetX,
                     offsetY,
-                    width: offsetX,
-                    height: offsetY,
-                    stroke: "black"
+                    width: 0,
+                    height: 0,
+                    stroke: color
                 }
             ])
         }
@@ -118,8 +136,8 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool}) => {
                         if(index===elements.length-1) {
                             return {
                                 ...ele,
-                                width: offsetX,
-                                height: offsetY,
+                                width: offsetX-ele.offsetX,
+                                height: offsetY-ele.offsetY,
                             }
                         } else {
                             return ele;
