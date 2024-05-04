@@ -1,7 +1,7 @@
 import Canvas from "@/AppComponents/Canvas"
 import { useRef, useState } from "react"
 
-const RoomPage = ({user}) => {
+const RoomPage = ({user, socket}) => {
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [tool, setTool] = useState("pencil")
@@ -112,6 +112,8 @@ const RoomPage = ({user}) => {
                     setElements={setElements}
                     tool={tool}
                     color={color}
+                    user={user}
+                    socket={socket}
                 />
             </div>
         </div>
