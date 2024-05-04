@@ -6,7 +6,7 @@ const Forms = ({generateID, socket, setUser}) => {
     return (
         <div className="flex flex-wrap gap-5 justify-around">
             <CreateRoomForm generateID={generateID} socket={socket} setUser={setUser}/>
-            <JoinRoomForm/>
+            <JoinRoomForm generateID={generateID} socket={socket} setUser={setUser}/>
         </div>
     )
 }
