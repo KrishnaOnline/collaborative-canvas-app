@@ -11,7 +11,12 @@ app.get('/', (req, res) => {
 })
 
 io.on("connection", (socket) => {
-    console.log("User Connected");
+    // console.log("User Connected");
+    socket.on("userJoined", (data) => {
+        const {name, userID, roomID, host, presenter} = data;
+        socket.join(roomID);
+        socket.emit("userIsJoined", { success: true })
+    })
 })
 
 const PORT = process.env.PORT || 5000;
