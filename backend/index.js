@@ -1,11 +1,17 @@
 const express = require("express");
 const app = express();
 
-const http = require("http");
-const server = require("socket.io")(http);
+const server = require("http").createServer(app);
+const {Server} = require("socket.io");
+
+const io = new Server(server);
 
 app.get('/', (req, res) => {
-    res.send("Collaborative White Board App");
+    res.send("Collaborative Canvas App");
+})
+
+io.on("connection", (socket) => {
+    console.log("User Connected");
 })
 
 const PORT = process.env.PORT || 5000;
