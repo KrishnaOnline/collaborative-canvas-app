@@ -20,7 +20,11 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool, color, user
                 <img
                     src={img}
                     alt="Real time Canvas"
-                    className="w-full h-full"
+                    // className="w-full h-full"
+                    style={{
+                        height: window.innerHeight*4/5,
+                        width: "300%",
+                    }}
                 />
             </div>
         )

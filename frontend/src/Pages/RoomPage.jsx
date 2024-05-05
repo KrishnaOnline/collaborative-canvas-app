@@ -1,7 +1,7 @@
 import Canvas from "@/AppComponents/Canvas"
 import { useRef, useState } from "react"
 
-const RoomPage = ({user, socket}) => {
+const RoomPage = ({user, socket, users}) => {
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [tool, setTool] = useState("pencil")
@@ -38,7 +38,7 @@ const RoomPage = ({user, socket}) => {
 
     return (
         <div className="flex w-full justify-center flex-col mx-auto">
-            <h1 className="text-center">Collaborative Canvas <span>[Users Online: 0]</span></h1>
+            <h1 className="text-center">Collaborative Canvas <span>[Users Online: {users.length}]</span></h1>
             {
                 user && user.presenter && (
                     <div className="flex gap-10 mx-auto">
@@ -114,7 +114,18 @@ const RoomPage = ({user, socket}) => {
                     color={color}
                     user={user}
                     socket={socket}
+                    // users={users}
                 />
+            </div>
+            <div>
+                Users...
+                <div>
+                    {
+                        users.map((usr, i) => (
+                            <p key={i}>{usr?.name}{usr?.host ? " (host)" : ""} {user && user.userID===usr.userID && "(you)"}</p>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )

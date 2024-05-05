@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const server = require("http").createServer(app);
 const {Server} = require("socket.io");
+const { addUser } = require("./utils/users");
 
 const io = new Server(server);
 
@@ -21,7 +22,9 @@ io.on("connection", (socket) => {
         const {name, userID, roomID, host, presenter} = data;
         roomIdGlobal = roomID;
         socket.join(roomID);
-        socket.emit("userIsJoined", { success: true });
+        const users = addUser(data);
+        socket.emit("userIsJoined", { success: true, users });
+        socket.broadcast.to(roomID).emit("allUsers", users);
         socket.broadcast.to(roomID).emit("canvasDataResponse", {
             imgURL: imgURLGlobal,
         })

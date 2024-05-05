@@ -17,12 +17,17 @@ const socket = io(server, connectionOptions)
 
 function App() {
   const [user, setUser] = useState(null)
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     socket.on("userIsJoined", (data) => {
       if(data.success) {
         console.log("User Joined")
+        setUsers(data.users)
       } else console.log("Something Went Wrong")
+    })
+    socket.on("allUsers", (data) => {
+      setUsers(data)
     })
   }, [])
 
@@ -43,7 +48,7 @@ function App() {
     <div className='max-w-[1280px] mx-auto'>
       <Routes>
         <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
-        <Route path='/:roomID' element={<RoomPage user={user} socket={socket}/>}/>
+        <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
       </Routes>
     </div>
   )
