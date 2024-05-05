@@ -1,6 +1,11 @@
 import Canvas from "@/AppComponents/Canvas"
 import Chat from "@/AppComponents/Chat"
 import { useEffect, useRef, useState } from "react"
+import { FaPencilAlt } from "react-icons/fa";
+import { RiRectangleLine } from "react-icons/ri";
+import { LuUndo2 } from "react-icons/lu";
+import { LuRedo2 } from "react-icons/lu";
+import { MdDelete } from "react-icons/md";
 
 const RoomPage = ({user, socket, users}) => {
     const canvasRef = useRef(null)
@@ -44,25 +49,25 @@ const RoomPage = ({user, socket, users}) => {
     }
 
     return (
-        <div className="flex w-full justify-center flex-col mx-auto">
-            <h1 className="text-center">Collaborative Canvas <span>[Users Online: {users.length}]</span></h1>
+        <div className="flex flex-wrap w-full justify-center items-center flex-col mx-auto">
+            <h1 className="mb-9 mt-3 text-4xl pl-4 text-[#0442ED] font-bold">Canvas <span className="font-normal">[Users Online: {users.length}]</span></h1>
             {
                 user && user.presenter && (
-                    <div className="flex gap-10 mx-auto">
-                        <div className="flex gap-3">
-                            <div className="flex gap-1 items-center">
-                                <label htmlFor="pencil">Pencil</label>
+                    <div className="flex flex-wrap justify-center items-center gap-10 mx-auto">
+                        <div className="flex items-center justify-center">
+                            <div className="flex gap-1 border-black rounded-l-lg border-2 border-r-0 p-2 items-center">
                                 <input
                                     type="radio"
                                     name="tool"
                                     id="pencil"
+                                    className="font-medium"
                                     checked={tool==="pencil"}
                                     value="pencil"
                                     onChange={(e) => setTool(e.target.value)}
                                 />
+                                <label className="font-medium flex items-center gap-2 text-lg" htmlFor="pencil">Pencil <FaPencilAlt /></label>
                             </div>
-                            <div className="flex gap-1 items-center">
-                                <label htmlFor="line">Line</label>
+                            <div className="flex gap-1 border-black border-2 border-r-0 p-2 items-center">
                                 <input
                                     type="radio"
                                     name="tool"
@@ -71,9 +76,9 @@ const RoomPage = ({user, socket, users}) => {
                                     value="line"
                                     onChange={(e) => setTool(e.target.value)}
                                 />
+                                <label className="font-medium flex items-center gap-2 text-lg" htmlFor="line">Line |</label>
                             </div>
-                            <div className="flex gap-1 items-center">
-                                <label htmlFor="rect">Rectangle</label>
+                            <div className="flex gap-1 border-black border-2 rounded-r-lg p-2 items-center">
                                 <input
                                     type="radio"
                                     name="tool"
@@ -82,10 +87,11 @@ const RoomPage = ({user, socket, users}) => {
                                     value="rect"
                                     onChange={(e) => setTool(e.target.value)}
                                 />
+                                <label className="font-medium flex items-center gap-2 text-lg" htmlFor="rect">Rectangle <RiRectangleLine /></label>
                             </div>
                         </div>
-                        <div>
-                            <label className="flex gap-5">
+                        <div className="border-black rounded-lg border-2 p-2">
+                            <label className="font-medium flex items-center gap-2 text-lg">
                                 <p>Select Color: </p>
                                 <input
                                     type="color"
@@ -97,21 +103,23 @@ const RoomPage = ({user, socket, users}) => {
                         </div>
                         <div className="flex gap-3">
                             <button
+                                className="text-2xl border-black border-2 rounded-full p-1 hover:bg-black hover:text-white cursor-pointer"
                                 disabled={elements.length===0}
                                 onClick={undoHandler}
-                            >Undo</button>
+                            ><LuUndo2 /></button>
                             <button
+                                className="text-2xl border-black border-2 rounded-full p-1 hover:bg-black hover:text-white cursor-pointer"
                                 disabled={history.length<1}
                                 onClick={redoHandler}
-                            >Redo</button>
+                            ><LuRedo2 /></button>
                         </div>
                         <div>
-                            <button onClick={handleClearCanvas}>Clear Canvas</button>
+                            <button className="border-black border-2 p-2 rounded-lg bg-red-700 text-white px-3 hover:bg-red-500 flex items-center font-medium text-xl" onClick={handleClearCanvas}>Clear Canvas</button>
                         </div>
                     </div>
                 )
             }
-            <div className="mx-auto w-4/5">
+            <div className="mx-auto mt-5 w-4/5">
                 <Canvas 
                     canvasRef={canvasRef} 
                     contextRef={contextRef}
@@ -124,17 +132,18 @@ const RoomPage = ({user, socket, users}) => {
                     // users={users}
                 />
             </div>
-            <div>
-                Users...
-                <div>
+            <div className="mt-10 w-4/5">
+                <p className="font-semibold text-3xl">All Users</p>
+                <div className="flex gap-5">
                     {
                         users.map((usr, i) => (
-                            <p key={i}>{usr?.name}{usr?.host ? " (host)" : ""} {user && user.userID===usr.userID && "(you)"}</p>
+                            <p className="text-lg" key={i}>{usr?.name}{usr?.host ? " [host]" : ""} {user && user.userID===usr.userID && "(you)"}, </p>
                         ))
                     }
                 </div>
             </div>
-            <div>
+            <div className="mt-8 mb-8 w-4/5">
+                <p className="font-semibold text-3xl mb-2">Chat</p>
                 <Chat socket={socket}/>
             </div>
         </div>

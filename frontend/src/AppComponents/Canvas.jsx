@@ -15,7 +15,7 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool, color, user
 
     if(!user?.presenter) {
         return (
-            <div className="bg-white h-full w-full border-black border-4 overflow-hidden">
+            <div className="bg-white h-full w-full border-black border-[2px] rounded-3xl shadow-2xl overflow-hidden">
                 {/*<canvas ref={canvasRef}/>*/}
                 <img
                     src={img}
@@ -184,7 +184,7 @@ const Canvas = ({canvasRef, contextRef, elements, setElements, tool, color, user
 
     return (
         <div 
-            className="bg-white h-full w-full border-black border-4 overflow-hidden"
+            className="bg-white h-full w-full border-black border-[2px] rounded-3xl shadow-2xl overflow-hidden"
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
