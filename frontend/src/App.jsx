@@ -59,7 +59,7 @@ function App() {
       <div className='sticky top-0 z-50'>
         <Navbar/>
       </div>
-      <div className='max-w-[1280px] overflow-x-hidden h-screen mx-auto'>
+      <div className='max-w-[1280px] overflow-x-hidden md:overflow-visible h-screen mx-auto'>
         <Routes>
           <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
           <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
