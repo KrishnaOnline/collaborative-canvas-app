@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { data } from 'autoprefixer'
 import Navbar from './AppComponents/NavBar'
+import Error from './Pages/ErrorPage'
 
 
 const server = import.meta.env.VITE_BACKEND_URL
@@ -62,6 +63,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
           <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
+          <Route path='*' element={<Error/>}/>
         </Routes>
       </div>
       <Toaster />
