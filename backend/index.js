@@ -11,7 +11,7 @@ const { addUser, removeUser, getUser } = require("./utils/users");
 const io = new Server(server);
 
 app.get('/', (req, res) => {
-    res.send("Collaborative Canvas App");
+    res.send("Real time Canvas Sharing App...");
 })
 
 let roomIdGlobal, imgURLGlobal;
@@ -36,7 +36,14 @@ io.on("connection", (socket) => {
             imgURL: data,
         })
     })
-    socket.on("disconnect", (data) => {
+    socket.on("message", (data) => {
+        const {msg} = data;
+        const user = getUser(socket.id);
+        if(user) {
+            socket.broadcast.to(roomIdGlobal).emit("msgResponse", {msg, name: user.name});
+        }
+    })
+    socket.on("disconnect", () => {
         const user = getUser(socket.id);
         if(user) {
             removeUser(socket.id);

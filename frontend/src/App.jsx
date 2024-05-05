@@ -53,7 +53,7 @@ function App() {
   // console.log(generateID());
 
   return (
-    <div className='max-w-[1280px] mx-auto'>
+    <div className='max-w-[1280px] h-screen mx-auto'>
       <Routes>
         <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
         <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>

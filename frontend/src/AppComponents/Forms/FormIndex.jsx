@@ -4,7 +4,7 @@ import JoinRoomForm from "./JoinRoomForm"
 
 const Forms = ({generateID, socket, setUser}) => {
     return (
-        <div className="flex flex-wrap gap-5 justify-around">
+        <div className="flex flex-wrap justify-around gap-10">
             <CreateRoomForm generateID={generateID} socket={socket} setUser={setUser}/>
             <JoinRoomForm generateID={generateID} socket={socket} setUser={setUser}/>
         </div>

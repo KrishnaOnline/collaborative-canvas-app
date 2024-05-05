@@ -1,4 +1,5 @@
 import Canvas from "@/AppComponents/Canvas"
+import Chat from "@/AppComponents/Chat"
 import { useEffect, useRef, useState } from "react"
 
 const RoomPage = ({user, socket, users}) => {
@@ -132,6 +133,9 @@ const RoomPage = ({user, socket, users}) => {
                         ))
                     }
                 </div>
+            </div>
+            <div>
+                <Chat socket={socket}/>
             </div>
         </div>
     )
