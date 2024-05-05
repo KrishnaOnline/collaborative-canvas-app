@@ -50,7 +50,7 @@ const RoomPage = ({user, socket, users}) => {
 
     return (
         <div className="flex flex-wrap w-full justify-center items-center flex-col mx-auto">
-            <h1 className="mb-9 mt-3 text-4xl pl-4 text-[#0442ED] font-bold">Canvas <span className="font-normal">[Users Online: {users.length}]</span></h1>
+            <h1 className="mb-9 mt-3 text-4xl pl-4 text-[#0442ED] font-bold">Canvas <span className="font-normal text-green-500">[Users Online: <span className="font-medium">{users.length}</span>]</span></h1>
             {
                 user && user.presenter && (
                     <div className="flex flex-wrap justify-center items-center gap-10 mx-auto">

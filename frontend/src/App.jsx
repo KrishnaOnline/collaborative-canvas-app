@@ -6,6 +6,7 @@ import HomePage from './Pages/HomePage'
 import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { data } from 'autoprefixer'
+import Navbar from './AppComponents/NavBar'
 
 
 const server = import.meta.env.VITE_BACKEND_URL
@@ -53,11 +54,16 @@ function App() {
   // console.log(generateID());
 
   return (
-    <div className='max-w-[1280px] h-screen mx-auto'>
-      <Routes>
-        <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
-        <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
-      </Routes>
+    <div className=''>
+      <div className='sticky top-0 z-50'>
+        <Navbar/>
+      </div>
+      <div className='max-w-[1280px] h-screen mx-auto'>
+        <Routes>
+          <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
+          <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
+        </Routes>
+      </div>
       <Toaster />
     </div>
   )
