@@ -1,5 +1,5 @@
 import Canvas from "@/AppComponents/Canvas"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const RoomPage = ({user, socket, users}) => {
     const canvasRef = useRef(null)
@@ -8,6 +8,12 @@ const RoomPage = ({user, socket, users}) => {
     const [color, setColor] = useState("black")
     const [elements, setElements] = useState([])
     const [history, setHistory] = useState([])
+
+    // useEffect(() => {
+    //     return () => {
+    //         socket.emit("userLeft", user)
+    //     }
+    // }, [])
 
     const handleClearCanvas = () => {
         const canvas = canvasRef.current

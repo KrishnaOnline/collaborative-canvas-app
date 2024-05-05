@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const server = require("http").createServer(app);
 const {Server} = require("socket.io");
-const { addUser } = require("./utils/users");
+const { addUser, removeUser, getUser } = require("./utils/users");
 
 const io = new Server(server);
 
@@ -22,8 +22,9 @@ io.on("connection", (socket) => {
         const {name, userID, roomID, host, presenter} = data;
         roomIdGlobal = roomID;
         socket.join(roomID);
-        const users = addUser(data);
+        const users = addUser({name, userID, roomID, host, presenter, socketId: socket.id});
         socket.emit("userIsJoined", { success: true, users });
+        socket.broadcast.to(roomID).emit("userJoinedMsg", name);
         socket.broadcast.to(roomID).emit("allUsers", users);
         socket.broadcast.to(roomID).emit("canvasDataResponse", {
             imgURL: imgURLGlobal,
@@ -34,6 +35,13 @@ io.on("connection", (socket) => {
         socket.broadcast.to(roomIdGlobal).emit("canvasDataResponse", {
             imgURL: data,
         })
+    })
+    socket.on("disconnect", (data) => {
+        const user = getUser(socket.id);
+        if(user) {
+            removeUser(socket.id);
+            socket.broadcast.to(roomIdGlobal).emit("userLeftMsg", user.name);
+        }
     })
 })
 

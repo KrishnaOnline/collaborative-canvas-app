@@ -4,6 +4,8 @@ import io from "socket.io-client"
 import RoomPage from './Pages/RoomPage'
 import HomePage from './Pages/HomePage'
 import { useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+import { data } from 'autoprefixer'
 
 
 const server = import.meta.env.VITE_BACKEND_URL
@@ -29,6 +31,12 @@ function App() {
     socket.on("allUsers", (data) => {
       setUsers(data)
     })
+    socket.on("userJoinedMsg", (data) => {
+      toast.success(`${data} joined the Room`);
+    })
+    socket.on("userLeftMsg", (data) => {
+      toast.success(`${data} left the Room`);
+    })
   }, [])
 
   const generateID = () => {
@@ -50,6 +58,7 @@ function App() {
         <Route path='/' element={<HomePage generateID={generateID} socket={socket} setUser={setUser}/>}/>
         <Route path='/:roomID' element={<RoomPage user={user} socket={socket} users={users}/>}/>
       </Routes>
+      <Toaster />
     </div>
   )
 }
