@@ -5,7 +5,6 @@ import { AiOutlineMenu } from 'react-icons/ai'
 
 
 const Navbar = () => {
-  const [isNavOpen, setIsNavOpen] = useState(false)
   // console.log(isNavOpen)
   const navLinks = [
     { id: 1, name: 'Home', path: '#home' },
@@ -42,7 +41,7 @@ const Navbar = () => {
   return (
     <>
       <div id='navbar' className='shadow-md bg-white p-2 px-3 sticky top-0 z-50'>
-        <div className='mx-auto hidden md:flex flex-row max-w-[1280px] px-20 items-center justify-between'>
+        <div className='mx-auto flex max-w-[1280px] px-20 items-center justify-between'>
           <Link to={'https://www.linkedin.com/in/krishna-vamshi-kusuma-11717b213/'} target='_blank'><img src={Logo} className='h-16' alt='Logo' /></Link>
           <div className='flex gap-2'>
             <Link target='_blank' to={'https://krishnavamshi-portfolio.netlify.app/'}>
