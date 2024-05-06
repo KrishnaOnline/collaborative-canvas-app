@@ -6,9 +6,13 @@ const cors = require("cors");
 
 const server = require("http").createServer(app);
 const {Server} = require("socket.io");
-const { addUser, removeUser, getUser } = require("./utils/users");
+const { addUser, removeUser, getUser, users } = require("./utils/users");
 
 const io = new Server(server);
+
+app.use(() => {
+    console.log(users);
+})
 
 app.get('/', (req, res) => {
     res.send("Real time Canvas Sharing App...");

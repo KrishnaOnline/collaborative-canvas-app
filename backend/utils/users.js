@@ -16,5 +16,5 @@ const getUsersInRoom = (roomID) => {
 }
 
 module.exports = {
-    addUser, removeUser, getUser, getUsersInRoom
+    addUser, removeUser, getUser, getUsersInRoom, users
 }
